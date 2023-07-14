@@ -1,11 +1,34 @@
 import React from 'react';
 import { View, Text, TextInput, SafeAreaView, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
+const auth = getAuth();
 
+const LoginScreen = ({ navigation }) => {
+  const [Email, SetEmail] = React.useState('');
+  const [Password, SetPassword] = React.useState('');
+  const [value, setValue] = React.useState('');
 
-const LoginScreen = () => {
-  const [text, onChangeText] = React.useState('');
-  const [number, onChangeNumber] = React.useState('');
+  async function LoginUser() {
+    if (Email === '' || Password === '') {
+      setValue({
+        ...value,
+        error: 'Email and password are mandatory.'
+      })
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, Email, Password);
+    } catch (error) {
+      console.log(error)
+      setValue({
+        ...value,
+        error: error.message,
+      })
+    };
+  };
 
   return (
     <View style={{
@@ -14,21 +37,27 @@ const LoginScreen = () => {
     }}>
       <Text>Hello! 👋</Text>
       <Text>Please Continue by Logging in here:</Text>
+
+      {!!value.error && <View style={styles.error}><Text>{value.error}</Text></View>}
+
       <SafeAreaView>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeText}
           placeholder='Email'
-          value={text}
+          onChangeText={(Email) => SetEmail(Email)}
+
         />
         <TextInput
           style={styles.input}
-          onChangeText={onChangeNumber}
-          value={number}
+          onChangeText={(Password) => SetPassword(Password)}
           placeholder="Password"
-          keyboardType="numeric"
         />
       </SafeAreaView>
+      <Button
+        title='Sign In'
+        style={styles.input}
+        onPress={LoginUser}
+      />
     </View>
   );
 };

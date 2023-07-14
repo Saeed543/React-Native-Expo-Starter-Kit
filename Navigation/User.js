@@ -1,9 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View } from 'react-native'
 import Homepage from "../Pages/Home";
-import { Text } from 'react-native';
 
 const Stack = createStackNavigator();
 
