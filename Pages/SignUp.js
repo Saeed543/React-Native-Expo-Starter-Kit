@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TextInput, Alert } from 'react-native';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { Button } from "react-native-elements";
 
 const auth = getAuth();
 
-const SignUpScreen = ({navigation}) => {
+const SignUpScreen = () => {
     const [Password, SetPassword] = React.useState("");
+    const [ConfirmPassword, SetConfirmPassword] = React.useState("");
     const [Email, SetEmail] = React.useState("");
     const [FirstName, LastName] = React.useState("");
     const [value, setValue] = React.useState("");
@@ -19,10 +20,20 @@ const SignUpScreen = ({navigation}) => {
             })
             return;
         }
+        if (Email === '' || ConfirmPassword === '') {
+            setValue({
+                ...value,
+                error: 'Please enter confirm password to continue.'
+            })
+            return;
+        }
+        if (Password != ConfirmPassword) {
+            Alert.alert('Error', 'Password does not match')
+
+            return;
+        }
         try {
-            await createUserWithEmailAndPassword(auth, Email, Password);
-            navigation.navigate('LoginScreen');
-            
+            await createUserWithEmailAndPassword(auth, Email, ConfirmPassword);
         } catch (error) {
             setValue({
                 ...value,
@@ -70,7 +81,7 @@ const SignUpScreen = ({navigation}) => {
                 <TextInput
                     style={styles.input}
                     placeholder="Confirm Password"
-                    onChangeText={(Password) => SetPassword(Password)}
+                    onChangeText={(Password) => SetConfirmPassword(Password)}
                     secureTextEntry={true}
 
                 />
@@ -78,7 +89,7 @@ const SignUpScreen = ({navigation}) => {
 
             <Button
                 title='Sign Up'
-                style={styles.input}
+                buttonStyle={styles.button}
                 onPress={Signupuser}
             />
         </View>
@@ -92,6 +103,16 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         alignItems: 'center',
         padding: 10,
+    },
+    button: {
+        marginBottom: 100,
+        padding: 10
+    },
+    error: {
+        marginTop: 10,
+        padding: 10,
+        color: '#fff',
+        backgroundColor: '#D54826FF',
     },
 });
 

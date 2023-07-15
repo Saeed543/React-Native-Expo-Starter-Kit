@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
       </SafeAreaView>
       <Button
         title='Sign In'
-        style={styles.input}
+        style={styles.button}
         onPress={LoginUser}
       />
     </View>
@@ -69,6 +69,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
     padding: 10,
+  },
+  button: {
+    marginBottom: 10,
+    padding: 10
+  },
+  error: {
+    marginTop: 10,
+    padding: 10,
+    color: '#fff',
+    backgroundColor: '#D54826FF',
   },
 });
 
