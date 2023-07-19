@@ -65,11 +65,9 @@ expo run-android
 
 The project structure is designed to keep the codebase organized and scalable. Here's an overview of the main directories and files:
 
-- `/src`: Contains the source code of the application.
-  - `/components`: Reusable components used throughout the application.
-  - `/navigation`: Configurations and screens related to navigation using React Navigation.
+  - `/Navigation`: Configurations and screens related to navigation using React Navigation.
   - `/Pages`: Application screens and their respective components.
-  - `/firebase`: Firebase configuration and authentication service.
+  - `/config`: Firebase configuration and authentication service.
 - `/assets`: Contains static assets such as images, fonts, etc.
 
 Feel free to modify the project structure based on your specific needs as the project evolves.
